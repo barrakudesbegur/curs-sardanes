@@ -10,6 +10,9 @@
 	},
 	"workers_dev": true,
 	"preview_urls": true,
+	// Serve the campaign at its custom domain via a Worker route on the existing
+	// proxied DNS record (moved here from the old Pages project).
+	"routes": [{ "pattern": "sardanes.barrakudesbegur.org/*", "zone_name": "barrakudesbegur.org" }],
 	"observability": {
 		"enabled": true
 	},
