@@ -44,17 +44,21 @@ test.describe('/admin/links CRUD + QR', () => {
 		await page.goto('/admin/links');
 		await expect(page.getByRole('heading', { name: 'Enllaços i QR' })).toBeVisible();
 
+		// Unique code AND label per run: the local D1 is shared across runs, so a
+		// static label ("Prova e2e") accumulates duplicates and breaks strict-mode
+		// locators. Tie the label to the code so each run asserts on its own row.
 		const code = 'e2e' + Date.now().toString().slice(-5);
+		const label = `Prova ${code}`;
 		await page.getByLabel('Codi (curt, per la URL)').fill(code);
-		await page.getByLabel('Etiqueta').fill('Prova e2e');
+		await page.getByLabel('Etiqueta').fill(label);
 		await page.getByRole('button', { name: "Crea l'enllaç" }).click();
 
-		await expect(page.getByRole('heading', { name: 'Prova e2e' })).toBeVisible();
+		await expect(page.getByRole('heading', { name: label })).toBeVisible();
 		await expect(page.getByText(`/go?q=${code}`).first()).toBeVisible();
 
 		// It really landed in D1.
 		const rows = d1Query<{ label: string }>(`SELECT label FROM links WHERE code = '${code}'`);
-		expect(rows[0]?.label).toBe('Prova e2e');
+		expect(rows[0]?.label).toBe(label);
 	});
 
 	test('seeded links render with a QR preview', async ({ page }) => {
