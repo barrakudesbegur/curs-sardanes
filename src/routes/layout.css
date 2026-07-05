@@ -1,0 +1,24 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+/* Brand tokens — mirror landing-barrakudes/src/styles/global.css. */
+@theme {
+	--color-brand: #ff8201;
+	--color-brand-dark: #d96a00;
+	--color-ink: #1b1b1b;
+	--color-cream: #fff7ec;
+	--font-sans:
+		'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+		'Segoe UI Symbol', 'Noto Color Emoji';
+	--font-title: 'Londrina Solid', 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+	html {
+		-webkit-text-size-adjust: 100%;
+	}
+	body {
+		font-family: var(--font-sans);
+		color: var(--color-ink);
+	}
+}

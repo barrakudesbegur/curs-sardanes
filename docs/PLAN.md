@@ -4,6 +4,8 @@
 > **Audience:** an implementing agent (or human) with access to `/Users/maui/Projects`.
 > **Scope:** three repos — `curs-sardanes` (this one, new SvelteKit app), `whatsapp-bot` (new repo, to be created), `landing-barrakudes` (small edit).
 > **Amended 2026-07-05:** tracked short links live at `/go?q=<code>` (dedicated path + query param), not the originally drafted path-based `/[code]`.
+> **Amended 2026-07-05 (2):** the fallback form drops the chat-style "què fem quan se sàpiga?" question — a web fallback must always yield a *contactable* person, so email is required for everyone; the consent links to a real privacy policy at `/privacitat` (adapted from `signature-collection`), covering the form, the WhatsApp bot and click logging.
+> **Amended 2026-07-05 (3):** the fallback form also captures an **optional WhatsApp number** — people whose wa.me redirect failed still have WhatsApp; the number enables the future group invite / phase-2 template notification.
 
 ---
 
@@ -253,11 +255,11 @@ CREATE TABLE clicks (
 CREATE TABLE form_responses (
   id INTEGER PRIMARY KEY,
   name TEXT NOT NULL,
-  action TEXT NOT NULL,                -- 'avisam' | 'nomes-interes'  (no 'grup': needs WhatsApp)
   availability TEXT NOT NULL,
-  availability_raw TEXT,
-  email TEXT,                          -- required iff action='avisam'
-  consent INTEGER NOT NULL,            -- RGPD checkbox
+  availability_raw TEXT,               -- free text when availability='custom'
+  email TEXT NOT NULL,                 -- always required: the fallback's job is a contactable person
+  phone TEXT,                          -- optional WhatsApp number (they have WhatsApp but wa.me failed)
+  consent INTEGER NOT NULL,            -- RGPD checkbox (see /privacitat)
   ts TEXT NOT NULL
 );
 ```
@@ -265,7 +267,8 @@ CREATE TABLE form_responses (
 ### 5.3 Routes
 
 - **`/` (pitch)**: Londrina hero ("Aprenem a ballar sardanes?"), dancing ninos, informal pitch (idea being explored, weekends, months, WhatsApp group), big CTA **"Parla amb en Kudi 💬"** → wa.me. Small, de-emphasized "No tens WhatsApp?" → `/formulari`. Direct visits log as code `direct`.
-- **`/go?q=<code>` (interstitial — the poster/IG target)**: server `load` logs the click (code from the `q` query param, platform, referer; unknown codes still work, missing/empty `q` logs as `unknown:`). Mobile render: minimal "Un moment, t'envio amb en Kudi… 💃" + nino, then immediately `location.href = wa.me…`; a `visibilitychange`/`pagehide` heuristic (~2s) detects non-departure → morph into: "Vaja! No s'ha obert WhatsApp 🤔" `[Torna-ho a provar]` `[Omple el formulari]` + pitch content below. Desktop render: pitch + **QR of the wa.me link** + `[Obre WhatsApp Web]` + form link.- **`/formulari` (fallback form)**: header copy states WhatsApp is the preferred channel (+retry button). Fields: nom · què fem quan se sàpiga? (`avisa'm per correu` / `només vull dir que m'interessa`) · disponibilitat (same 5 options + free text) · email (only shown/required for avisa'm; copy: "posa'l només si de debò no vols WhatsApp 😉") · RGPD consent checkbox (purpose: informar-te del curs; contacte: correu de l'associació). Submit via remote `form` function → `/gracies` (nino celebration).
+- **`/go?q=<code>` (interstitial — the poster/IG target)**: server `load` logs the click (code from the `q` query param, platform, referer; unknown codes still work, missing/empty `q` logs as `unknown:`). Mobile render: minimal "Un moment, t'envio amb en Kudi… 💃" + nino, then immediately `location.href = wa.me…`; a `visibilitychange`/`pagehide` heuristic (~2s) detects non-departure → morph into: "Vaja! No s'ha obert WhatsApp 🤔" `[Torna-ho a provar]` `[Omple el formulari]` + pitch content below. Desktop render: pitch + **QR of the wa.me link** + `[Obre WhatsApp Web]` + form link.- **`/formulari` (fallback form)**: header copy states WhatsApp is the preferred channel (+retry button). Fields: nom · disponibilitat (same 5 options + free text) · email (**always required** — the fallback exists to capture a *contactable* interested person; helper copy explains it's only used to notify about the course) · WhatsApp number (**optional** — for people who do have WhatsApp but the wa.me redirect failed; enables the group invite / phase-2 template notify) · RGPD consent checkbox linking to `/privacitat`. Submit via remote `form` function → `/gracies` (nino celebration).
+- **`/privacitat`**: plain-Catalan privacy policy (adapted from `signature-collection`'s in-page policy) covering the web form, the WhatsApp bot (incl. AI processing) and click logging (no cookies, no IPs stored); data retention and rights (email `hola@barrakudesbegur.org` or tell Kudi "esborra les meves dades"). Linked from the form consent and a small site-wide footer (privacy + open-source links).
 - **`/admin` (Cloudflare Access-gated via `hooks.server.ts`, port of coin-reader's `access.ts`)**: mobile-first report:
   - Clicks by source over time; totals per link.
   - **Funnel**: clicks → conversations started → surveys completed → grup/avisa'm (via `BOT_DB` `flow_instances` where `flow_type='curs-sardanes'`, `json_extract` for answers) + web form counts.
