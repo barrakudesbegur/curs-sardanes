@@ -12,6 +12,60 @@ build — these are the owner steps.
 4. Create the two Cloudflare **Access** apps (admin gates) + custom domains.
 5. Meta/WhatsApp setup, then flip `WA_ENABLED=true` (last, owner-gated).
 
+> **Both apps are Cloudflare _Workers_, not Pages.** `curs-sardanes` really is
+> SvelteKit (output `.svelte-kit/cloudflare`); `whatsapp-bot` is a Hono Worker
+> (entry `src/index.ts`, assets in `./public`) — it has **no**
+> `.svelte-kit/cloudflare` dir. Setting the bot up as a **Pages** project fails
+> with `Output directory ".svelte-kit/cloudflare" not found`. For each Worker's
+> git build: build `npm run build`, deploy `npx wrangler deploy`, and leave the
+> Pages-only "build output directory" field EMPTY. See `whatsapp-bot/README.md`.
+
+---
+
+## 0. Trial in production WITHOUT Meta / a phone number
+
+Meta business verification takes days, and you don't want to buy a number before
+you're sure. **You can run the whole thing in production now, for free, and
+evaluate the real experience — no Meta app, no number.** What works without Meta:
+
+- The **campaign site** end to end: pitch, `/go` click tracking, `/formulari`
+  fallback form (writes to prod D1), `/gracies`, `/privacitat`, and the
+  `/admin` report. Only the `wa.me` deep link has nowhere real to land yet.
+- **Kudi** driven via the built-in **Simulador** (in the inbox at
+  `wa.barrakudesbegur.org/admin`), which runs the *same* router code against the
+  real production D1. Conversations, the survey, the inbox transcript, and the
+  cross-database funnel in the campaign `/admin` all populate with real data.
+
+Setup for the trial:
+
+1. Do steps 1, 2, 4 below (D1s, deploy both Workers, Access apps + domains).
+   **Skip** the Meta steps (5) — leave `WA_ENABLED="false"` (already the
+   default; outbound sends are logged to D1, never sent).
+2. Temporarily enable the simulator in production so you can drive Kudi from the
+   inbox: in `whatsapp-bot`, set a **secret** `DEV_SIMULATOR=true`
+   (`npx wrangler secret put DEV_SIMULATOR`), then redeploy.
+   - ⚠️ `POST /dev/simulate` is **not** behind Access, so while this is on anyone
+     who knows the URL could inject fake conversations. It's fine for a private
+     trial; **turn it off before a public launch**
+     (`npx wrangler secret delete DEV_SIMULATOR` + redeploy).
+3. For `curs-sardanes`, `PUBLIC_WA_NUMBER` can stay the placeholder for now — the
+   site works; the `wa.me` button just won't open a real chat until you have a
+   number. (When you get the free Meta **test number**, drop it in and the button
+   works for you + up to 5 allowlisted testers — see step 5.)
+
+Then verify (this is task "Production verification without Meta"):
+
+- Open `wa.barrakudesbegur.org/admin` → Simulador → drive a full survey
+  (trigger → name → button → list). Confirm it appears under Converses with the
+  transcript, and the reply-as-Kudi box + 24h window behave.
+- Open `sardanes.barrakudesbegur.org/admin` → the funnel and people list show
+  those simulated completions joined from `BOT_DB`, plus any real `/formulari`
+  submissions and `/go` clicks. Export CSV.
+- Submit `/formulari` on the live site and confirm the row + the person in the
+  report.
+
+When you're happy and Meta is verified, do step 5 and flip `WA_ENABLED=true`.
+
 ---
 
 ## 1. D1 databases (do this first)
@@ -46,8 +100,9 @@ Worker-style `wrangler.jsonc`).
 | `whatsapp-bot` | `npm run build` | `npx wrangler deploy` |
 | `curs-sardanes` | `npm run build` | `npx wrangler deploy` |
 
-For `curs-sardanes`, add build vars `PUBLIC_WA_NUMBER` and `PUBLIC_WA_PREFILL`
-(inlined at build time). `whatsapp-bot`'s `npm run build` builds the admin SPA.
+For `curs-sardanes`, add the build var `PUBLIC_WA_NUMBER` (inlined at build time;
+the prefill message is hardcoded in `src/lib/wa.ts`). `whatsapp-bot`'s
+`npm run build` builds the admin SPA.
 
 **Option B — manual:** `npm run build && npx wrangler deploy` from each repo on a
 machine with `wrangler login`.

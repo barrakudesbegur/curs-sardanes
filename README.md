@@ -28,7 +28,8 @@ npm run db:apply:local   # create/migrate the local D1 (.wrangler/state)
 npm run dev
 ```
 
-- `.env` (gitignored) holds `PUBLIC_WA_NUMBER` / `PUBLIC_WA_PREFILL` — see `.env.example`.
+- `.env` (gitignored) holds `PUBLIC_WA_NUMBER` — see `.env.example`. The prefilled
+  message is hardcoded in `src/lib/wa.ts` (it must match the bot's flow trigger).
 - `npm run validate` — prettier + eslint + svelte-check.
 - `npm run test:unit` / `npm run test:e2e` / `npm test` — vitest + Playwright
   (e2e boots the dev server and asserts against the local D1).
@@ -48,8 +49,7 @@ _Workers & Pages → Create → Workers → Import a repository_ →
 - Deploy command: `npx wrangler deploy`
 - No "build output directory" setting is needed — `wrangler.jsonc` already
   points at `.svelte-kit/cloudflare`.
-- Build variables: `PUBLIC_WA_NUMBER`, `PUBLIC_WA_PREFILL` (they are inlined at
-  build time by `$env/static/public`).
+- Build variable: `PUBLIC_WA_NUMBER` (inlined at build time by `$env/static/public`).
 
 **One-time setup before the first deploy succeeds:**
 

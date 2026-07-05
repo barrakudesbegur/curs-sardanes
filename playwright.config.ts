@@ -6,6 +6,10 @@ const PORT = 5191;
 export default defineConfig({
 	testDir: 'e2e',
 	testMatch: '**/*.e2e.{ts,js}',
+	// The first test after a cold `vite dev` boot can race the local D1 settling
+	// on disk (async platformProxy write → direct sqlite read). One retry absorbs
+	// that startup jitter; steady-state runs pass without it.
+	retries: process.env.CI ? 2 : 1,
 	use: {
 		baseURL: `http://localhost:${PORT}`,
 		...devices['Desktop Chrome']
