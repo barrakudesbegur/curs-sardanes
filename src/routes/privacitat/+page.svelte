@@ -63,8 +63,9 @@
 	<section class="flex flex-col gap-2">
 		<h2 class="font-title text-2xl text-brand">Quant de temps</h2>
 		<p>
-			Fins que anunciem si el curs es fa o no. Si es fa, les mantenim mentre duri l'organització. En
-			tot cas, les esborrem com a màxim 6 mesos després que ja no siguin necessàries.
+			Fins que anunciem si el curs es fa o no. Si es fa, les mantenim mentre duri l'organització. La
+			conversacio de whatsapp la no la borrem per poder respondre i procesar amb coherència els
+			missatges que ens enviis.
 		</p>
 	</section>
 
