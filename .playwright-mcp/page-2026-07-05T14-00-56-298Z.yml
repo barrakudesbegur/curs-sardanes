@@ -1,0 +1,40 @@
+- generic [ref=e3]:
+    - generic [ref=e4]:
+        - heading "Panell d'en Kudi" [level=1] [ref=e5]
+        - generic [ref=e6]: dev@localhost
+    - navigation [ref=e7]:
+        - button "Converses" [ref=e8] [cursor=pointer]
+        - button "Coneixement" [ref=e9] [cursor=pointer]
+        - button "Simulador" [ref=e10] [cursor=pointer]
+    - generic [ref=e11]:
+        - button "← Totes les converses" [ref=e20] [cursor=pointer]
+        - generic [ref=e21]:
+            - heading "Berta" [level=2] [ref=e22]
+            - button "Esborra dades" [ref=e23] [cursor=pointer]
+        - generic [ref=e24]:
+            - generic [ref=e25]:
+                - text: Explica'm això del curs de sardanes
+                - generic [ref=e26]: 05/07 16:00
+            - generic [ref=e27]:
+                - text: "Ei! 👋 Sóc en Kudi — el nino taronja del logo dels Barrakudes (sí, tinc nom!). Ara t'explico això del curs, però primer de tot: com vols que et digui?"
+                - generic [ref=e28]: 05/07 16:00 · logged
+            - generic [ref=e29]:
+                - text: Berta
+                - generic [ref=e30]: 05/07 16:00
+            - generic [ref=e31]:
+                - text: "Genial, Berta! 🧡 Doncs mira: als Barrakudes ens ronda pel cap muntar un curs per aprendre a ballar sardanes. De moment és només una idea — abans de llançar-nos-hi volem saber si hi ha prou gent que s'hi apuntaria. Seria un curs de debò: unes quantes sessions repartides durant uns mesos, els caps de setmana (que és quan tothom és a Begur 😉). Si tira endavant, muntarem un grup de WhatsApp per organitzar-ho. I potser et torno a escriure per demanar-te algun detall o opinió."
+                - generic [ref=e32]: 05/07 16:00 · logged
+            - generic [ref=e33]:
+                - text: Què vols que faci quan sapiguem si es fa?
+                - generic [ref=e34]:
+                    - generic [ref=e35]: Afegeix-me al grup
+                    - generic [ref=e36]: Només avisa'm
+                    - generic [ref=e37]: Res, gràcies
+                - generic [ref=e38]: 05/07 16:00 · logged
+            - generic [ref=e43]:
+                - text: Ei Berta, una pregunta ràpida!
+                - generic [ref=e44]: 05/07 16:00 · logged
+        - generic [ref=e39]:
+            - textbox "Respon com en Kudi…" [ref=e40]
+            - button "Envia" [disabled] [ref=e41]
+        - paragraph [ref=e42]: 'WhatsApp està desactivat (WA_ENABLED=false): els enviaments es registren però no surten de debò.'

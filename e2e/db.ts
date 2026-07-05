@@ -12,17 +12,33 @@ import { basename } from 'node:path';
 
 let dbFile: string | undefined;
 
+/**
+ * Picks THIS app's local D1 sqlite. There can be several (we also seed the
+ * whatsapp-bot `BOT_DB` for the admin funnel), so we identify ours by the
+ * presence of the `links` table — unique to the curs-sardanes schema.
+ */
 function findDbFile(): string {
 	const candidates = globSync('.wrangler/state/v3/d1/miniflare-D1DatabaseObject/*.sqlite').filter(
 		(f) => basename(f) !== 'metadata.sqlite'
 	);
-	if (candidates.length !== 1) {
-		throw new Error(
-			`Expected exactly one local D1 sqlite file, found ${candidates.length}. ` +
-				'Run `npm run db:apply:local` first.'
-		);
+	if (candidates.length === 0) {
+		throw new Error('No local D1 sqlite found. Run `npm run db:setup:local` first.');
 	}
-	return candidates[0];
+	for (const file of candidates) {
+		try {
+			const out = execFileSync(
+				'sqlite3',
+				[file, "SELECT name FROM sqlite_master WHERE type='table' AND name='links'"],
+				{ encoding: 'utf8' }
+			);
+			if (out.trim() === 'links') return file;
+		} catch {
+			// Unreadable/locked candidate — try the next one.
+		}
+	}
+	throw new Error(
+		'Could not find the curs-sardanes D1 (no `links` table). Run `npm run db:apply:local`.'
+	);
 }
 
 export function d1Query<T = Record<string, unknown>>(sql: string): T[] {

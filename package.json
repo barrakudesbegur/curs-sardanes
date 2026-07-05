@@ -17,6 +17,8 @@
 		"validate": "npm run format:check && npm run lint && npm run check",
 		"db:apply:local": "wrangler d1 migrations apply curs-sardanes --local",
 		"db:apply:remote": "wrangler d1 migrations apply curs-sardanes --remote",
+		"db:seed:bot:local": "wrangler d1 execute whatsapp-bot --local --file scripts/seed-bot-local.sql",
+		"db:setup:local": "npm run db:apply:local && npm run db:seed:bot:local",
 		"test:unit": "vitest",
 		"test": "npm run test:unit -- --run && npm run test:e2e",
 		"test:e2e": "playwright test",
@@ -25,6 +27,7 @@
 	"dependencies": {
 		"@fontsource/inter": "^5.2.8",
 		"@fontsource/londrina-solid": "^5.2.7",
+		"jose": "^6.2.3",
 		"qrcode-generator": "^2.0.4",
 		"valibot": "^1.4.2"
 	},

@@ -1,0 +1,43 @@
+- generic [ref=e3]:
+    - generic [ref=e4]:
+        - heading "Panell d'en Kudi" [level=1] [ref=e5]
+        - generic [ref=e6]: dev@localhost
+    - navigation [ref=e7]:
+        - button "Converses" [ref=e8] [cursor=pointer]
+        - button "Coneixement" [active] [ref=e9] [cursor=pointer]
+        - button "Simulador" [ref=e10] [cursor=pointer]
+    - generic [ref=e11]:
+        - generic [ref=e45]:
+            - heading "Estat del curs" [level=2] [ref=e46]
+            - generic [ref=e47]:
+                - generic [ref=e48]:
+                    - generic [ref=e49]: Com respon en Kudi a "hi ha novetats?"
+                    - combobox "Com respon en Kudi a \"hi ha novetats?\"" [ref=e50]:
+                        - option "Explorant (és una idea)" [selected]
+                        - option "Confirmat (es fa!)"
+                        - option "Cancel·lat"
+                - generic [ref=e51]:
+                    - generic [ref=e52]: Nota (opcional)
+                    - textbox "Nota (opcional)" [ref=e53]:
+                        - /placeholder: p. ex. comencem a l'octubre
+                - button "Desa l'estat" [ref=e55] [cursor=pointer]
+        - generic [ref=e56]:
+            - heading "Nova entrada de coneixement" [level=2] [ref=e57]
+            - generic [ref=e58]:
+                - generic [ref=e59]:
+                    - generic [ref=e60]: Slug (minúscules-amb-guions)
+                    - textbox "Slug (minúscules-amb-guions)" [ref=e61]:
+                        - /placeholder: assaig-dijous
+                - generic [ref=e62]:
+                    - generic [ref=e63]: Títol
+                    - textbox "Títol" [ref=e64]:
+                        - /placeholder: Assaig de dijous
+                - generic [ref=e65]:
+                    - generic [ref=e66]: Contingut (Markdown)
+                    - textbox "Contingut (Markdown)" [ref=e67]
+                - generic [ref=e68]:
+                    - checkbox "Activa (en Kudi la fa servir)" [checked] [ref=e69]
+                    - text: Activa (en Kudi la fa servir)
+                - button "Crea" [ref=e71] [cursor=pointer]
+        - heading "Entrades (0)" [level=3] [ref=e72]
+        - paragraph [ref=e73]: Cap entrada encara. Crea'n una a dalt.

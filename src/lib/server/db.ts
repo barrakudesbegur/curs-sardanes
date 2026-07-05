@@ -13,6 +13,15 @@ export function getDb(): D1Database {
 	return db;
 }
 
+/**
+ * The whatsapp-bot database (`BOT_DB` binding), read-only by convention, used by
+ * the admin funnel. Returns `undefined` when the binding isn't present so the
+ * report can degrade gracefully instead of throwing.
+ */
+export function getBotDb(): D1Database | undefined {
+	return getRequestEvent().platform?.env?.BOT_DB;
+}
+
 /** Set of non-archived link codes, used to tell known links from `unknown:` ones. */
 export async function knownLinkCodes(db: D1Database): Promise<Set<string>> {
 	const { results } = await db

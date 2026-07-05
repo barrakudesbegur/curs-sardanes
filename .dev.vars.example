@@ -1,0 +1,6 @@
+# Copy to `.dev.vars` for local dev/e2e. Read by the adapter platform proxy
+# during `vite dev` and exposed on `platform.env`.
+#
+# ADMIN_DEV bypasses the Cloudflare Access gate on /admin (there is no Access in
+# front of a local dev server). NEVER set this in production.
+ADMIN_DEV=true

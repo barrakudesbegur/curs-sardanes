@@ -14,7 +14,9 @@ export default defineConfig({
 	// adapter's platformProxy, which is the reliable way to exercise remote
 	// functions + D1 end-to-end. Migrations are applied first.
 	webServer: {
-		command: `npm run db:apply:local && npx vite dev --port ${PORT} --strictPort`,
+		// Apply own migrations AND seed the local BOT_DB so the /admin funnel has
+		// cross-database data to join.
+		command: `npm run db:setup:local && npx vite dev --port ${PORT} --strictPort`,
 		port: PORT,
 		reuseExistingServer: !process.env.CI,
 		timeout: 120_000

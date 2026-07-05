@@ -10,7 +10,10 @@ declare global {
 		}
 
 		// interface Error {}
-		// interface Locals {}
+		interface Locals {
+			/** Set by hooks.server.ts for /admin routes (Cloudflare Access identity). */
+			identity?: import('$lib/server/access').AccessIdentity;
+		}
 		// interface PageData {}
 		// interface PageState {}
 	}

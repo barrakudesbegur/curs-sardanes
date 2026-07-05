@@ -204,7 +204,8 @@ Two layers, both concatenated into the AI fallback prompt (total is tiny — no 
 
 1. **Static, versioned in repo** (`kb/*.md`, imported as text at build): `que-es-barrakudes.md` (what the association is, what it does), `kudi.md` (who Kudi is — the logo nino), `xarxes.md` (Instagram handle, website — extract real values from `landing-barrakudes/src/consts.ts`), `curs-sardanes-faq.md` (it's an idea; weekends; several months; free?/price → "encara no ho sabem"; who can join).
 2. **Dynamic, in D1 `kb_entries`, editable from the inbox admin** — announcements, upcoming/past events, and anything organizers want Kudi to know without a deploy.
-3. **`settings.course_status`** (+ note) is injected explicitly so "hi ha novetats del curs?" always gets the current truth (exploring / confirmed / cancelled + note).
+3. **Live agenda from the landing (no duplication; added 2026-07-05)**: `landing-barrakudes` exposes its `events` content collection at `https://barrakudesbegur.org/events.json` (static endpoint built with the site); the bot fetches it at answer time (edge-cached ~15 min, fail-soft: section dropped on error) and injects upcoming/past events into the prompt. Var `EVENTS_JSON_URL` (unset/"off" disables).
+4. **`settings.course_status`** (+ note) is injected explicitly so "hi ha novetats del curs?" always gets the current truth (exploring / confirmed / cancelled + note).
 
 AI fallback prompt shape: Kudi persona & voice rules + KB + course status + conversation snippet + pending step (if any) + instructions: answer briefly in informal Catalan, never invent facts not in KB ("no ho sé, però pregunta-ho a l'Instagram @…"), then steer back to the pending question. Structured-output mode when interpreting an answer for a step.
 

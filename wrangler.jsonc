@@ -13,6 +13,18 @@
 	"observability": {
 		"enabled": true
 	},
+	// Cloudflare Access config for the /admin gate (ported from coin-reader). These
+	// are non-secret. The admin section is ALSO fronted by a Cloudflare Access
+	// application in the dashboard; hooks.server.ts verifies the forwarded JWT.
+	// ADMIN_DEV (the local bypass) is intentionally NOT here — it lives only in
+	// .dev.vars so it can never leak to production.
+	"vars": {
+		"CF_ACCESS_TEAM_DOMAIN": "https://barrakudesbegur.cloudflareaccess.com",
+		// TODO(owner): paste the Access application AUD(s) — comma-separated, the
+		// production app plus the preview-deployment app (see coin-reader/wrangler.toml).
+		"CF_ACCESS_AUD": "",
+		"CF_ACCESS_EMAIL_DOMAIN": "@barrakudesbegur.org"
+	},
 	"d1_databases": [
 		{
 			// This app's own database: short links, click tracking, fallback form.
