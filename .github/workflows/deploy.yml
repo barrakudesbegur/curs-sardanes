@@ -24,6 +24,12 @@ jobs:
           node-version: 24
       - run: npm ci
       - run: npm run build
+        env:
+          # Baked into the client at build time (.env is gitignored, so absent in
+          # CI). Set a repo variable PUBLIC_WA_NUMBER (Settings → Variables →
+          # Actions) to the real/test WhatsApp number; falls back to the
+          # placeholder so deploys work before you have one.
+          PUBLIC_WA_NUMBER: ${{ vars.PUBLIC_WA_NUMBER || '34600000000' }}
       - uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
