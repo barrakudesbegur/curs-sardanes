@@ -30,10 +30,7 @@
 			// This app's own database: short links, click tracking, fallback form.
 			"binding": "DB",
 			"database_name": "curs-sardanes",
-			// TODO(owner): replace with the real id printed by
-			// `wrangler d1 create curs-sardanes`. The dummy id below only needs to be
-			// syntactically valid for local (`--local`) development and CI.
-			"database_id": "00000000-0000-0000-0000-000000000000",
+			"database_id": "c52e7511-bd06-4a10-acd9-4479570d59f1",
 			"migrations_dir": "migrations"
 		},
 		{
@@ -42,9 +39,7 @@
 			// This repo owns no migrations for it.
 			"binding": "BOT_DB",
 			"database_name": "whatsapp-bot",
-			// TODO(owner): replace with the real id from the whatsapp-bot repo
-			// (`wrangler d1 create whatsapp-bot`).
-			"database_id": "11111111-1111-1111-1111-111111111111"
+			"database_id": "37af59b3-98e8-406f-b123-8aaa22f74738"
 		}
 	]
 }
