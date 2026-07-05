@@ -47,10 +47,11 @@ Setup for the trial:
    guarded by `requireAdmin()` (Access), so only signed-in organisers can use it
    — but turn the flag off after the trial to keep the surface minimal
    (`npx wrangler secret delete DEV_SIMULATOR` + redeploy).
-3. For `curs-sardanes`, `PUBLIC_WA_NUMBER` can stay the placeholder for now — the
-   site works; the `wa.me` button just won't open a real chat until you have a
-   number. (When you get the free Meta **test number**, drop it in and the button
-   works for you + up to 5 allowlisted testers — see step 5.)
+3. For `curs-sardanes`, `WA_NUMBER` (in `wrangler.jsonc` `vars`) can stay the
+   placeholder for now — the site works; the `wa.me` button just won't open a
+   real chat until you have a number. (When you get the free Meta **test
+   number**, drop it in and redeploy; the button works for you + up to 5
+   allowlisted testers — see step 5.)
 
 Then verify (this is task "Production verification without Meta"):
 
@@ -99,9 +100,9 @@ Worker-style `wrangler.jsonc`).
 | `whatsapp-bot` | `npm run build` | `npx wrangler deploy` |
 | `curs-sardanes` | `npm run build` | `npx wrangler deploy` |
 
-For `curs-sardanes`, add the build var `PUBLIC_WA_NUMBER` (inlined at build time;
-the prefill message is hardcoded in `src/lib/wa.ts`). `whatsapp-bot`'s
-`npm run build` builds the admin SPA.
+Neither repo needs build variables. For `curs-sardanes`, `WA_NUMBER` is a runtime
+var in `wrangler.jsonc` `vars` (read via `platform.env`); the prefill message is
+hardcoded in `src/lib/wa.ts`. `whatsapp-bot`'s `npm run build` builds the admin UI.
 
 **Option B — manual:** `npm run build && npx wrangler deploy` from each repo on a
 machine with `wrangler login`.
@@ -158,14 +159,14 @@ Then flip outbound sends on: set `WA_ENABLED="true"` in `whatsapp-bot/wrangler.j
 and redeploy. Until then everything works end-to-end via the simulator with sends
 logged to D1 (no real messages).
 
-Finally: set the WhatsApp number in `curs-sardanes` (`PUBLIC_WA_NUMBER` build var
-/ `.env`) so the wa.me links point at Kudi, and set Kudi's WABA profile (name
-"Kudi", the nino photo).
+Finally: set the WhatsApp number in `curs-sardanes` (`WA_NUMBER` in
+`wrangler.jsonc` `vars`, then redeploy) so the wa.me links point at Kudi, and set
+Kudi's WABA profile (name "Kudi", the nino photo).
 
 ## What the agent needs from you (blocking checklist)
 
 - [ ] Run `wrangler d1 create` twice; paste the 2 ids into the 3 binding slots.
-- [ ] Kudi's real WhatsApp number → `PUBLIC_WA_NUMBER`.
+- [ ] Kudi's real WhatsApp number → `WA_NUMBER` (in `wrangler.jsonc` `vars`).
 - [ ] Meta app + WABA: `WA_ACCESS_TOKEN`, `WA_APP_SECRET`, `WA_VERIFY_TOKEN`,
       `WA_PHONE_NUMBER_ID`.
 - [ ] Create the 2 Access apps → paste each `CF_ACCESS_AUD`.

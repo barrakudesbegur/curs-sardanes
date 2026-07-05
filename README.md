@@ -28,8 +28,10 @@ npm run db:apply:local   # create/migrate the local D1 (.wrangler/state)
 npm run dev
 ```
 
-- `.env` (gitignored) holds `PUBLIC_WA_NUMBER` — see `.env.example`. The prefilled
-  message is hardcoded in `src/lib/wa.ts` (it must match the bot's flow trigger).
+- Kudi's WhatsApp number is a runtime Cloudflare var (`WA_NUMBER` in
+  `wrangler.jsonc` `vars`), read via `platform.env` — no `.env` needed (the
+  platform proxy serves it in dev). The prefilled message is hardcoded in
+  `src/lib/wa.ts` (it must match the bot's flow trigger).
 - `npm run validate` — prettier + eslint + svelte-check.
 - `npm run test:unit` / `npm run test:e2e` / `npm test` — vitest + Playwright
   (e2e boots the dev server and asserts against the local D1).
@@ -49,7 +51,8 @@ _Workers & Pages → Create → Workers → Import a repository_ →
 - Deploy command: `npx wrangler deploy`
 - No "build output directory" setting is needed — `wrangler.jsonc` already
   points at `.svelte-kit/cloudflare`.
-- Build variable: `PUBLIC_WA_NUMBER` (inlined at build time by `$env/static/public`).
+- No build variables: `WA_NUMBER` is a runtime var in `wrangler.jsonc` `vars`,
+  read via `platform.env` (change it there, not at build time).
 
 **One-time setup before the first deploy succeeds:**
 

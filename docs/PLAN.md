@@ -235,7 +235,7 @@ Mobile-first, brand-styled but utilitarian:
 - `@sveltejs/adapter-cloudflare` → Workers (not Pages). D1 binding `DB` (own) + `BOT_DB` (whatsapp-bot's DB, for the admin report). Custom domain `sardanes.barrakudesbegur.org`.
 - Tailwind 4 (`@tailwindcss/vite`), `@fontsource/londrina-solid` + Inter. Define brand tokens matching the landing.
 - **Author every `.svelte`/`.svelte.ts` file through the svelte MCP tooling / `svelte:svelte-file-editor` agent (autofixer pass mandatory), per repo owner's global rules. Use context7 for SvelteKit/Cloudflare docs.**
-- Env: `PUBLIC_WA_NUMBER`, `PUBLIC_WA_PREFILL` ("Explica'm això del curs de sardanes 💃"). One shared helper builds the wa.me URL.
+- Config: `WA_NUMBER` (runtime Cloudflare var in `wrangler.jsonc` `vars`, read via `platform.env`); the prefill message is hardcoded in `src/lib/wa.ts` (`WA_PREFILL` = "Explica'm això del curs de sardanes 💃") since it must match the bot's flow trigger. One shared helper builds the wa.me URL.
 
 ### 5.2 D1 schema (`curs-sardanes` database)
 

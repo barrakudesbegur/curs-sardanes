@@ -23,13 +23,9 @@ jobs:
         with:
           node-version: 24
       - run: npm ci
+      # WA_NUMBER is a runtime Cloudflare var (wrangler.jsonc `vars`), read via
+      # platform.env — nothing WhatsApp-related is needed at build time anymore.
       - run: npm run build
-        env:
-          # Baked into the client at build time (.env is gitignored, so absent in
-          # CI). REQUIRED — set a repo variable PUBLIC_WA_NUMBER (Settings →
-          # Variables → Actions) to the WhatsApp (test/real) number. No default:
-          # if it's missing the build fails loudly instead of shipping a bad link.
-          PUBLIC_WA_NUMBER: ${{ vars.PUBLIC_WA_NUMBER }}
       - uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}

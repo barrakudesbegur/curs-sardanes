@@ -1,10 +1,9 @@
 import * as v from 'valibot';
 import { query, getRequestEvent } from '$app/server';
-import { PUBLIC_WA_NUMBER } from '$env/static/public';
 import { waMeUrl } from '$lib/wa';
 import { platformFromUA, type Platform } from '$lib/ua';
 import { normalizeClickCode } from '$lib/code';
-import { getDb, knownLinkCodes } from '$lib/server/db';
+import { getDb, getWaNumber, knownLinkCodes } from '$lib/server/db';
 
 export type ClickResult = {
 	/** The value stored in `clicks.code` — a known code or `unknown:<raw>`. */
@@ -40,5 +39,5 @@ export const logClick = query(v.nullable(v.string()), async (q): Promise<ClickRe
 		.bind(code, new Date().toISOString(), platform, referer)
 		.run();
 
-	return { code, platform, waUrl: waMeUrl(PUBLIC_WA_NUMBER) };
+	return { code, platform, waUrl: waMeUrl(getWaNumber()) };
 });
