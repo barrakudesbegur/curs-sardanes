@@ -78,10 +78,7 @@
 		<ul class="flex list-disc flex-col gap-2 pl-5">
 			<li>
 				Escriu-nos a
-				<a class="underline" href="mailto:{ASSOCIATION_EMAIL}">{ASSOCIATION_EMAIL}</a>, o
-			</li>
-			<li>
-				digues-li directament a en Kudi per WhatsApp: <em>«esborra les meves dades»</em>, i ho farà.
+				<a class="underline" href="mailto:{ASSOCIATION_EMAIL}">{ASSOCIATION_EMAIL}</a>
 			</li>
 		</ul>
 	</section>
