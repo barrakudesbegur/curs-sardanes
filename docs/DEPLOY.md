@@ -12,13 +12,12 @@ build — these are the owner steps.
 4. Create the two Cloudflare **Access** apps (admin gates) + custom domains.
 5. Meta/WhatsApp setup, then flip `WA_ENABLED=true` (last, owner-gated).
 
-> **Both apps are Cloudflare _Workers_, not Pages.** `curs-sardanes` really is
-> SvelteKit (output `.svelte-kit/cloudflare`); `whatsapp-bot` is a Hono Worker
-> (entry `src/index.ts`, assets in `./public`) — it has **no**
-> `.svelte-kit/cloudflare` dir. Setting the bot up as a **Pages** project fails
-> with `Output directory ".svelte-kit/cloudflare" not found`. For each Worker's
-> git build: build `npm run build`, deploy `npx wrangler deploy`, and leave the
-> Pages-only "build output directory" field EMPTY. See `whatsapp-bot/README.md`.
+> **Both apps are Cloudflare _Workers_, not Pages** — and now the **same stack**:
+> both are SvelteKit + `@sveltejs/adapter-cloudflare`, building to
+> `.svelte-kit/cloudflare`. Create each Cloudflare project as a **Worker**
+> (Workers Builds): build `npm run build`, deploy `npx wrangler deploy`, and
+> leave the Pages-only "build output directory" field EMPTY. A **Pages** project
+> fails on this config.
 
 ---
 
@@ -43,11 +42,11 @@ Setup for the trial:
    default; outbound sends are logged to D1, never sent).
 2. Temporarily enable the simulator in production so you can drive Kudi from the
    inbox: in `whatsapp-bot`, set a **secret** `DEV_SIMULATOR=true`
-   (`npx wrangler secret put DEV_SIMULATOR`), then redeploy.
-   - ⚠️ `POST /dev/simulate` is **not** behind Access, so while this is on anyone
-     who knows the URL could inject fake conversations. It's fine for a private
-     trial; **turn it off before a public launch**
-     (`npx wrangler secret delete DEV_SIMULATOR` + redeploy).
+   (`npx wrangler secret put DEV_SIMULATOR`), then redeploy. This surfaces the
+   **Simulador** tab in the inbox. The simulate action is a remote command
+   guarded by `requireAdmin()` (Access), so only signed-in organisers can use it
+   — but turn the flag off after the trial to keep the surface minimal
+   (`npx wrangler secret delete DEV_SIMULATOR` + redeploy).
 3. For `curs-sardanes`, `PUBLIC_WA_NUMBER` can stay the placeholder for now — the
    site works; the `wa.me` button just won't open a real chat until you have a
    number. (When you get the free Meta **test number**, drop it in and the button
@@ -185,5 +184,5 @@ npm run dev              # ADMIN_DEV=true bypasses the Access gate locally
 
 # whatsapp-bot
 npm run db:migrate:local
-npm run dev              # builds the admin SPA, then wrangler dev; DEV_SIMULATOR on
+npm run dev              # vite dev; DEV_SIMULATOR + DEV_ACCESS_BYPASS on locally
 ```
