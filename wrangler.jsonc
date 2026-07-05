@@ -22,7 +22,7 @@
 		"CF_ACCESS_TEAM_DOMAIN": "https://barrakudesbegur.cloudflareaccess.com",
 		// TODO(owner): paste the Access application AUD(s) — comma-separated, the
 		// production app plus the preview-deployment app (see coin-reader/wrangler.toml).
-		"CF_ACCESS_AUD": "",
+		"CF_ACCESS_AUD": "18936e91f29afdc893fb3c08843e93fc9e1287b32074cbb0c562a5a891f550e2",
 		"CF_ACCESS_EMAIL_DOMAIN": "@barrakudesbegur.org"
 	},
 	"d1_databases": [
