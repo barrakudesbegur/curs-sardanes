@@ -11,14 +11,14 @@ WhatsApp. Full spec in [`docs/PLAN.md`](docs/PLAN.md).
 
 ## Routes
 
-| Route          | Purpose                                                                                                                             |
-| -------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `/`            | Pitch page, big CTA to WhatsApp. Logs a `direct` click.                                                                             |
-| `/go?q=<code>` | Tracked interstitial (posters/IG/QR target): logs the click, hands off to wa.me, morphs into a fallback UI if WhatsApp never opens. |
-| `/formulari`   | Fallback form (no WhatsApp): name, availability, email (required), optional WhatsApp number, RGPD consent.                          |
-| `/gracies`     | Post-submit celebration.                                                                                                            |
-| `/privacitat`  | Privacy policy (form + bot + click logging).                                                                                        |
-| `/admin`       | Campaign report (Cloudflare Access-gated).                                                                                          |
+| Route          | Purpose                                                                                                                                         |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/`            | Pitch page, big CTA to WhatsApp. Logs a `direct` click.                                                                                         |
+| `/go?q=<code>` | Tracked interstitial (posters/IG/QR target): logs the click, hands off to the WhatsApp chat, morphs into a fallback UI if WhatsApp never opens. |
+| `/formulari`   | Fallback form (no WhatsApp): name, availability, email (required), optional WhatsApp number, RGPD consent.                                      |
+| `/gracies`     | Post-submit celebration.                                                                                                                        |
+| `/privacitat`  | Privacy policy (form + bot + click logging).                                                                                                    |
+| `/admin`       | Campaign report (Cloudflare Access-gated).                                                                                                      |
 
 ## Local development
 
@@ -28,10 +28,11 @@ npm run db:apply:local   # create/migrate the local D1 (.wrangler/state)
 npm run dev
 ```
 
-- Kudi's WhatsApp number is a runtime Cloudflare var (`WA_NUMBER` in
-  `wrangler.jsonc` `vars`), read via `platform.env` — no `.env` needed (the
-  platform proxy serves it in dev). The prefilled message is hardcoded in
-  `src/lib/wa.ts` (it must match the bot's flow trigger).
+- This repo holds **no WhatsApp number**: chat links point at
+  `wa.barrakudesbegur.org` (the whatsapp-bot's index), which accepts the same
+  query params as wa.me (`?text=`) and 302-forwards to the real wa.me link —
+  the number is resolved from Meta on the bot's side. The prefilled message is
+  hardcoded in `src/lib/wa.ts` (it must match the bot's flow trigger).
 - `npm run validate` — prettier + eslint + svelte-check.
 - `npm run test:unit` / `npm run test:e2e` / `npm test` — vitest + Playwright
   (e2e boots the dev server and asserts against the local D1).
@@ -51,8 +52,8 @@ _Workers & Pages → Create → Workers → Import a repository_ →
 - Deploy command: `npx wrangler deploy`
 - No "build output directory" setting is needed — `wrangler.jsonc` already
   points at `.svelte-kit/cloudflare`.
-- No build variables: `WA_NUMBER` is a runtime var in `wrangler.jsonc` `vars`,
-  read via `platform.env` (change it there, not at build time).
+- No variables at all: the WhatsApp target is the constant
+  `wa.barrakudesbegur.org` (see `src/lib/wa.ts`) — the bot resolves the number.
 
 **One-time setup before the first deploy succeeds:**
 

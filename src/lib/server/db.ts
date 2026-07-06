@@ -22,20 +22,6 @@ export function getBotDb(): D1Database | undefined {
 	return getRequestEvent().platform?.env?.BOT_DB;
 }
 
-/**
- * Kudi's WhatsApp number (`WA_NUMBER` var), used to build the wa.me deep link.
- * Read at runtime from Cloudflare (wrangler.jsonc `vars` in prod, platform proxy
- * in dev) rather than baked in at build time. Throws loudly if unset so a
- * misconfigured deploy fails fast instead of shipping a broken `wa.me/` link.
- */
-export function getWaNumber(): string {
-	const num = getRequestEvent().platform?.env?.WA_NUMBER;
-	if (!num) {
-		throw new Error('WA_NUMBER var is not available on platform.env');
-	}
-	return num;
-}
-
 /** Set of non-archived link codes, used to tell known links from `unknown:` ones. */
 export async function knownLinkCodes(db: D1Database): Promise<Set<string>> {
 	const { results } = await db

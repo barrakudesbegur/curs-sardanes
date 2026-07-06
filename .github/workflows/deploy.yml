@@ -23,8 +23,8 @@ jobs:
         with:
           node-version: 24
       - run: npm ci
-      # WA_NUMBER is a runtime Cloudflare var (wrangler.jsonc `vars`), read via
-      # platform.env — nothing WhatsApp-related is needed at build time anymore.
+      # Nothing WhatsApp-related is needed at build time (or as any var): links
+      # point at wa.barrakudesbegur.org, which resolves the number on its side.
       - run: npm run build
       - uses: cloudflare/wrangler-action@v3
         with:

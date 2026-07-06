@@ -6,6 +6,7 @@
 > **Amended 2026-07-05:** tracked short links live at `/go?q=<code>` (dedicated path + query param), not the originally drafted path-based `/[code]`.
 > **Amended 2026-07-05 (2):** the fallback form drops the chat-style "què fem quan se sàpiga?" question — a web fallback must always yield a *contactable* person, so email is required for everyone; the consent links to a real privacy policy at `/privacitat` (adapted from `signature-collection`), covering the form, the WhatsApp bot and click logging.
 > **Amended 2026-07-05 (3):** the fallback form also captures an **optional WhatsApp number** — people whose wa.me redirect failed still have WhatsApp; the number enables the future group invite / phase-2 template notification.
+> **Amended 2026-07-06:** this repo no longer stores any WhatsApp number (the `WA_NUMBER` var is gone). Chat links point at `wa.barrakudesbegur.org` — the whatsapp-bot's index, which accepts the same query params as wa.me (`?text=`) and 302-forwards to the real wa.me link, resolving the number from Meta on the bot's side.
 
 ---
 
@@ -235,7 +236,7 @@ Mobile-first, brand-styled but utilitarian:
 - `@sveltejs/adapter-cloudflare` → Workers (not Pages). D1 binding `DB` (own) + `BOT_DB` (whatsapp-bot's DB, for the admin report). Custom domain `sardanes.barrakudesbegur.org`.
 - Tailwind 4 (`@tailwindcss/vite`), `@fontsource/londrina-solid` + Inter. Define brand tokens matching the landing.
 - **Author every `.svelte`/`.svelte.ts` file through the svelte MCP tooling / `svelte:svelte-file-editor` agent (autofixer pass mandatory), per repo owner's global rules. Use context7 for SvelteKit/Cloudflare docs.**
-- Config: `WA_NUMBER` (runtime Cloudflare var in `wrangler.jsonc` `vars`, read via `platform.env`); the prefill message is hardcoded in `src/lib/wa.ts` (`WA_PREFILL` = "Explica'm això del curs de sardanes 💃") since it must match the bot's flow trigger. One shared helper builds the wa.me URL.
+- Config: none — the WhatsApp target is the constant `wa.barrakudesbegur.org` (the bot's wa.me stand-in; accepts the same `?text=` param and resolves the number from Meta on its side — see the 2026-07-06 amendment; originally a `WA_NUMBER` runtime var). The prefill message is hardcoded in `src/lib/wa.ts` (`WA_PREFILL` = "Explica'm això del curs de sardanes 💃") since it must match the bot's flow trigger. One shared helper builds the chat URL.
 
 ### 5.2 D1 schema (`curs-sardanes` database)
 

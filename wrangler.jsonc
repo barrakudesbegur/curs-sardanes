@@ -27,11 +27,9 @@
 		// TODO(owner): paste the Access application AUD(s) — comma-separated, the
 		// production app plus the preview-deployment app (see coin-reader/wrangler.toml).
 		"CF_ACCESS_AUD": "18936e91f29afdc893fb3c08843e93fc9e1287b32074cbb0c562a5a891f550e2",
-		"CF_ACCESS_EMAIL_DOMAIN": "@barrakudesbegur.org",
-		// Kudi's WhatsApp number for the wa.me deep link. Read at runtime via
-		// platform.env (getWaNumber), not baked in at build. Placeholder until the
-		// owner sets Meta up; TODO(owner): replace with the real/test number.
-		"WA_NUMBER": "34600000000"
+		"CF_ACCESS_EMAIL_DOMAIN": "@barrakudesbegur.org"
+		// No WhatsApp config here: links go to wa.barrakudesbegur.org (the
+		// whatsapp-bot's wa.me stand-in), which resolves the number on its side.
 	},
 	"d1_databases": [
 		{

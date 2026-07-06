@@ -1,15 +1,15 @@
 import * as v from 'valibot';
 import { query, getRequestEvent } from '$app/server';
-import { waMeUrl } from '$lib/wa';
+import { waChatUrl } from '$lib/wa';
 import { platformFromUA, type Platform } from '$lib/ua';
 import { normalizeClickCode } from '$lib/code';
-import { getDb, getWaNumber, knownLinkCodes } from '$lib/server/db';
+import { getDb, knownLinkCodes } from '$lib/server/db';
 
 export type ClickResult = {
 	/** The value stored in `clicks.code` — a known code or `unknown:<raw>`. */
 	code: string;
 	platform: Platform;
-	/** The wa.me deep link the page should route the visitor to. */
+	/** The WhatsApp chat link (the bot's wa.me stand-in) the page routes to. */
 	waUrl: string;
 };
 
@@ -39,5 +39,5 @@ export const logClick = query(v.nullable(v.string()), async (q): Promise<ClickRe
 		.bind(code, new Date().toISOString(), platform, referer)
 		.run();
 
-	return { code, platform, waUrl: waMeUrl(getWaNumber()) };
+	return { code, platform, waUrl: waChatUrl() };
 });

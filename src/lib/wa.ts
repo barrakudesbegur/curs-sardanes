@@ -8,15 +8,19 @@
 export const WA_PREFILL = "Explica'm això del curs de sardanes 💃";
 
 /**
- * Builds a `wa.me` deep link with the prefilled message URL-encoded.
- *
- * Kept pure and env-free so it is trivial to unit-test. The number is passed
- * explicitly (it genuinely varies: test number → real number). Everything that
- * isn't a digit is stripped, so `+34 600 00 00 00`, `34600000000` and
- * `0034-600-000-000` all normalize the same way. `prefill` defaults to the
- * shared constant.
+ * The bot's public chat entry point: the whatsapp-bot Worker's index, which
+ * accepts the same query params as wa.me (`?text=` = the prefilled message)
+ * and 302-forwards to the bot's real wa.me link (number resolved from Meta at
+ * runtime, on the bot's side). Indirecting through it means this repo never
+ * needs to know the phone number — no config, nothing to rotate here.
  */
-export function waMeUrl(number: string, prefill: string = WA_PREFILL): string {
-	const digits = number.replace(/\D/g, '');
-	return `https://wa.me/${digits}?text=${encodeURIComponent(prefill)}`;
+export const WA_CHAT_HOST = 'https://wa.barrakudesbegur.org';
+
+/**
+ * Builds the WhatsApp chat link with the prefilled message URL-encoded, in the
+ * exact shape a wa.me link would take (`?text=`). Pure and env-free, so it is
+ * trivial to unit-test. `prefill` defaults to the shared constant.
+ */
+export function waChatUrl(prefill: string = WA_PREFILL): string {
+	return `${WA_CHAT_HOST}/?text=${encodeURIComponent(prefill)}`;
 }
