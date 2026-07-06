@@ -24,3 +24,19 @@ export const WA_CHAT_HOST = 'https://wa.barrakudesbegur.org';
 export function waChatUrl(prefill: string = WA_PREFILL): string {
 	return `${WA_CHAT_HOST}/?text=${encodeURIComponent(prefill)}`;
 }
+
+/**
+ * Extracts a usable DIRECT wa.me link from the bot index's redirect Location
+ * header. Only a real wa.me target counts: while the Meta setup is missing the
+ * bot 302s to the association site instead, and that must not become the chat
+ * link. Pure so it is trivial to unit-test; null means "keep the indirect
+ * wa.barrakudesbegur.org URL".
+ */
+export function waMeFromLocation(location: string | null): string | null {
+	if (!location) return null;
+	try {
+		return new URL(location).hostname === 'wa.me' ? location : null;
+	} catch {
+		return null;
+	}
+}

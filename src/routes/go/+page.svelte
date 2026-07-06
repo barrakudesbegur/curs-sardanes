@@ -91,13 +91,25 @@
 		>
 			<Nino pose={1} class="w-32 animate-pulse" />
 			<p class="font-title text-3xl text-brand">Un moment, t'envio amb en Kudi… 💃</p>
-			<a
-				href={data.waUrl}
-				rel="external"
-				class="text-sm text-neutral-500 underline underline-offset-2"
-			>
-				Si no s'obre sol, toca aquí
-			</a>
+			<!-- Both escape hatches stay visible from the start: whoever bounces off
+			     WhatsApp's "download" page (no app installed) comes back here via the
+			     back button, and the form must be one tap away — the non-departure
+			     heuristic can't catch that case (the navigation itself succeeds). -->
+			<div class="flex flex-col items-center gap-2">
+				<a
+					href={data.waUrl}
+					rel="external"
+					class="text-sm text-neutral-500 underline underline-offset-2"
+				>
+					Si no s'obre sol, toca aquí
+				</a>
+				<a
+					href={resolve('/formulari')}
+					class="text-sm text-neutral-500 underline underline-offset-2"
+				>
+					No tens WhatsApp? Omple el formulari
+				</a>
+			</div>
 		</main>
 	{/if}
 {:else}

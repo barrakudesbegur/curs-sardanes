@@ -2,8 +2,10 @@
 	import { resolve } from '$app/paths';
 	import { submitForm } from './form.remote';
 	import { AVAILABILITY, AVAILABILITY_LABELS } from '$lib/survey';
-	import { waChatUrl } from '$lib/wa';
 	import Nino from '$lib/components/Nino.svelte';
+	import type { PageProps } from './$types';
+
+	let { data }: PageProps = $props();
 
 	const fields = submitForm.fields;
 	// Reactive current value, used to reveal the free-text availability input.
@@ -24,7 +26,7 @@
 			deixa'ns el correu i quan sapiguem si el curs es fa, t'escrivim.
 		</p>
 		<a
-			href={waChatUrl()}
+			href={data.waUrl}
 			rel="external"
 			class="inline-flex items-center gap-2 rounded-full border-2 border-brand px-5 py-2 text-sm font-bold text-brand transition hover:bg-brand/10"
 		>

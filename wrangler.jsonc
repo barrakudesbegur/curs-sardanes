@@ -31,6 +31,12 @@
 		// No WhatsApp config here: links go to wa.barrakudesbegur.org (the
 		// whatsapp-bot's wa.me stand-in), which resolves the number on its side.
 	},
+	// Direct server-side call into the whatsapp-bot Worker (same account), used
+	// to resolve the bot's real wa.me link from its index redirect at runtime
+	// (src/lib/server/wa.ts). A binding is REQUIRED — a plain fetch of
+	// wa.barrakudesbegur.org from this Worker would not work: same-zone
+	// subrequests bypass Worker routes and hit the origin instead.
+	"services": [{ "binding": "BOT", "service": "whatsapp-bot" }],
 	"d1_databases": [
 		{
 			// This app's own database: short links, click tracking, fallback form.

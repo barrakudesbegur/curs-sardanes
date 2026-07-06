@@ -28,11 +28,14 @@ npm run db:apply:local   # create/migrate the local D1 (.wrangler/state)
 npm run dev
 ```
 
-- This repo holds **no WhatsApp number**: chat links point at
-  `wa.barrakudesbegur.org` (the whatsapp-bot's index), which accepts the same
-  query params as wa.me (`?text=`) and 302-forwards to the real wa.me link —
-  the number is resolved from Meta on the bot's side. The prefilled message is
-  hardcoded in `src/lib/wa.ts` (it must match the bot's flow trigger).
+- This repo holds **no WhatsApp number**. At runtime the server resolves the
+  **direct wa.me link** from the whatsapp-bot Worker (`BOT` service binding →
+  the bot's index 302, cached per isolate; `src/lib/server/wa.ts`) — browsers
+  need a first-party wa.me URL because iOS won't open the app through a
+  cross-domain redirect. When the bot can't resolve it (local dev, no Meta
+  setup yet), links fall back to `wa.barrakudesbegur.org`, the bot's wa.me
+  stand-in (same `?text=` param). The prefilled message is hardcoded in
+  `src/lib/wa.ts` (it must match the bot's flow trigger).
 - `npm run validate` — prettier + eslint + svelte-check.
 - `npm run test:unit` / `npm run test:e2e` / `npm test` — vitest + Playwright
   (e2e boots the dev server and asserts against the local D1).

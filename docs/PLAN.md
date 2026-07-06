@@ -7,6 +7,7 @@
 > **Amended 2026-07-05 (2):** the fallback form drops the chat-style "què fem quan se sàpiga?" question — a web fallback must always yield a *contactable* person, so email is required for everyone; the consent links to a real privacy policy at `/privacitat` (adapted from `signature-collection`), covering the form, the WhatsApp bot and click logging.
 > **Amended 2026-07-05 (3):** the fallback form also captures an **optional WhatsApp number** — people whose wa.me redirect failed still have WhatsApp; the number enables the future group invite / phase-2 template notification.
 > **Amended 2026-07-06:** this repo no longer stores any WhatsApp number (the `WA_NUMBER` var is gone). Chat links point at `wa.barrakudesbegur.org` — the whatsapp-bot's index, which accepts the same query params as wa.me (`?text=`) and 302-forwards to the real wa.me link, resolving the number from Meta on the bot's side.
+> **Amended 2026-07-06 (2):** browsers get the **direct wa.me link** again — resolved server-side from the bot's index via a `BOT` service binding (cached per isolate, falls back to the indirect URL). iOS deliberately refuses to open apps through a cross-domain 302, so the pure-redirect version broke app-open and `/go`'s non-departure heuristic. The `/go` redirecting screen also gains an always-visible "No tens WhatsApp? Omple el formulari" link — the heuristic can't catch the no-app case (navigation to wa.me's download page succeeds), so the form must be reachable via the back button.
 
 ---
 

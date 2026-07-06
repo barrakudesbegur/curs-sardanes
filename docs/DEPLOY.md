@@ -101,8 +101,11 @@ Worker-style `wrangler.jsonc`).
 | `curs-sardanes` | `npm run build` | `npx wrangler deploy` |
 
 Neither repo needs build variables. `curs-sardanes` has no WhatsApp config at
-all (links go to `wa.barrakudesbegur.org`; the prefill message is hardcoded in
-`src/lib/wa.ts`). `whatsapp-bot`'s `npm run build` builds the admin UI.
+all (the direct wa.me link is resolved at runtime through its `BOT` service
+binding to the `whatsapp-bot` Worker, falling back to `wa.barrakudesbegur.org`;
+the prefill message is hardcoded in `src/lib/wa.ts`). Deploy `whatsapp-bot`
+**before** `curs-sardanes` the first time — the service binding requires the
+target Worker to exist. `whatsapp-bot`'s `npm run build` builds the admin UI.
 
 **Option B — manual:** `npm run build && npx wrangler deploy` from each repo on a
 machine with `wrangler login`.
