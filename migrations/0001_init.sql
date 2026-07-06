@@ -1,4 +1,4 @@
--- curs-sardanes database schema (PLAN 5.2).
+-- curs-sardanes database schema.
 -- Applied to local D1 with: npm run db:apply:local
 
 -- Short tracked links (posters, IG, web...). `code` is what appears in /go?q=<code>.
@@ -34,7 +34,7 @@ CREATE TABLE form_responses (
   ts TEXT NOT NULL
 );
 
--- Seed the canonical campaign links (PLAN section 7, phase 6). Organizers can add
+-- Seed the canonical campaign links. Organizers can add
 -- more from the admin later; INSERT OR IGNORE keeps this idempotent.
 INSERT OR IGNORE INTO links (code, label, created_at, archived) VALUES
   ('p1',      'Cartell · Plaça de la Vila',        strftime('%Y-%m-%dT%H:%M:%SZ', 'now'), 0),

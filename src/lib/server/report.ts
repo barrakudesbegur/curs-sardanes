@@ -1,5 +1,5 @@
 /**
- * Campaign report queries (PLAN 5.3 admin). Reads this app's own DB (clicks,
+ * Campaign report queries for /admin. Reads this app's own DB (clicks,
  * form_responses) and the whatsapp-bot DB (BOT_DB, read-only by convention) for
  * the conversation funnel. D1 can't join across databases, so each side is
  * queried separately and merged here.

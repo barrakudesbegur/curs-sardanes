@@ -4,7 +4,7 @@ Campaign site for the Barrakudes de Begur **"Curs de sardanes"** demand-validati
 campaign: it routes people from posters/Instagram into a WhatsApp conversation
 with **Kudi** (see [`barrakudesbegur/whatsapp-bot`](https://github.com/barrakudesbegur/whatsapp-bot)),
 logs click-level attribution, and offers a fallback form for people without
-WhatsApp. Full spec in [`docs/PLAN.md`](docs/PLAN.md).
+WhatsApp.
 
 **Stack:** SvelteKit 2 + Svelte 5 (remote functions) · Cloudflare **Workers**
 (not Pages) via `@sveltejs/adapter-cloudflare` · Tailwind 4 · D1.
@@ -35,7 +35,8 @@ npm run dev
   cross-domain redirect. When the bot can't resolve it (local dev, no Meta
   setup yet), links fall back to `wa.barrakudesbegur.org`, the bot's wa.me
   stand-in (same `?text=` param). The prefilled message is hardcoded in
-  `src/lib/wa.ts` (it must match the bot's flow trigger).
+  `src/lib/wa.ts` — it's just the conversation opener the AI-first bot receives
+  (the bot has no trigger phrases; nothing requires an exact match).
 - `npm run validate` — prettier + eslint + svelte-check.
 - `npm run test:unit` / `npm run test:e2e` / `npm test` — vitest + Playwright
   (e2e boots the dev server and asserts against the local D1).

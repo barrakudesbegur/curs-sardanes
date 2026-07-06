@@ -55,8 +55,9 @@ Setup for the trial:
 
 Then verify (this is task "Production verification without Meta"):
 
-- Open `wa.barrakudesbegur.org/admin` → Simulador → drive a full survey
-  (trigger → name → button → list). Confirm it appears under Converses with the
+- Open `wa.barrakudesbegur.org/admin` → Simulador → drive a full survey in free
+  text (say you're interested, give a name, tap the generated options — the bot
+  is AI-first, there are no trigger phrases). Confirm it appears under Converses with the
   transcript, and the reply-as-Kudi box + 24h window behave.
 - Open `sardanes.barrakudesbegur.org/admin` → the funnel and people list show
   those simulated completions joined from `BOT_DB`, plus any real `/formulari`

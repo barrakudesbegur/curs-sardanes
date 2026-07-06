@@ -1,9 +1,8 @@
 /**
- * The prefilled WhatsApp message. This is NOT configuration — it is the exact
- * text the whatsapp-bot listens for as the `curs-sardanes` flow trigger, so the
- * two are coupled and must change together. Hardcoded here (not an env var) for
- * that reason; if you edit it, edit the bot's trigger in
- * `whatsapp-bot/src/flows/curs-sardanes.ts` too.
+ * The prefilled WhatsApp message: the conversation opener Kudi receives. The
+ * bot is AI-first (no trigger phrases, no exact-match anything), so this can
+ * change freely — keeping it on-topic just gives a warmer first reply.
+ * Hardcoded (not an env var) because it's copy, not configuration.
  */
 export const WA_PREFILL = "Explica'm això del curs de sardanes 💃";
 
